@@ -1,10 +1,23 @@
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import auth from '../api/auth';
 
 function LoginPage() {
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    const { email, password } = data;
+
+    auth
+      .login(email, password)
+      .then((res) => {
+        const { token } = res.data;
+        console.log(token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
