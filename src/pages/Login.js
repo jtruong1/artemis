@@ -1,23 +1,21 @@
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import auth from '../api/auth';
+import { Link, Navigate } from 'react-router-dom';
+import { UserContext } from '../hooks/UserContext';
+import useAuth from '../hooks/useAuth';
 
-function LoginPage() {
+const Login = () => {
   const { register, handleSubmit } = useForm();
+  const { user } = useContext(UserContext);
+  const { loginUser } = useAuth();
 
   const onSubmit = (data) => {
-    const { email, password } = data;
-
-    auth
-      .login(email, password)
-      .then((res) => {
-        const { token } = res.data;
-        console.log(token);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    loginUser(data);
   };
+
+  if (user) {
+    return <Navigate to="/monitors" replace />;
+  }
 
   return (
     <>
@@ -110,6 +108,6 @@ function LoginPage() {
       </div>
     </>
   );
-}
+};
 
-export default LoginPage;
+export default Login;

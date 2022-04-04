@@ -1,21 +1,37 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import { UserContext } from './hooks/UserContext';
+import useFindUser from './hooks/useFindUser';
+import RequireAuth from './components/RequireAuth';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Monitors from './pages/Monitors';
 
-function App() {
+const App = () => {
+  const { user, setUser, isLoading } = useFindUser();
+
   return (
     <Router>
-      <Helmet>
-        <title>Artemis</title>
-      </Helmet>
+      <UserContext.Provider value={{ user, setUser, isLoading }}>
+        <Helmet>
+          <title>Artemis</title>
+        </Helmet>
 
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Routes>
+        <Routes>
+          <Route exact path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/monitors"
+            element={
+              <RequireAuth>
+                <Monitors />
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </UserContext.Provider>
     </Router>
   );
-}
+};
 
 export default App;

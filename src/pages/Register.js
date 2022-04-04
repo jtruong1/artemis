@@ -1,22 +1,21 @@
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import auth from '../api/auth';
+import { Link, Navigate } from 'react-router-dom';
+import { UserContext } from '../hooks/UserContext';
+import useAuth from '../hooks/useAuth';
 
-function RegisterPage() {
+const Register = () => {
   const { register, handleSubmit } = useForm();
+  const { user } = useContext(UserContext);
+  const { registerUser } = useAuth();
 
   const onSubmit = (data) => {
-    const { name, email, password } = data;
-
-    auth
-      .register(name, email, password)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    registerUser(data);
   };
+
+  if (user) {
+    return <Navigate to="/monitors" replace />;
+  }
 
   return (
     <>
@@ -42,7 +41,7 @@ function RegisterPage() {
                 Already have an account?{' '}
                 <Link
                   className="text-primary-600 transition hover:text-primary-500 focus:underline focus:outline-none"
-                  to="/login"
+                  to="/"
                 >
                   Log in →
                 </Link>
@@ -136,6 +135,6 @@ function RegisterPage() {
       </div>
     </>
   );
-}
+};
 
-export default RegisterPage;
+export default Register;
