@@ -1,14 +1,18 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
-    <>
+    <Router>
       <Helmet>
         <title>Artemis</title>
       </Helmet>
 
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
 }
 
