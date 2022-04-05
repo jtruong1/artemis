@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import auth from '../api/auth';
 
-export default function useFindUser() {
+const useFindUser = () => {
   const [user, setUser] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
@@ -22,4 +22,6 @@ export default function useFindUser() {
   }, []);
 
   return { user, setUser, isLoading };
-}
+};
+
+export default useFindUser;

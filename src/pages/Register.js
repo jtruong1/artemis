@@ -34,7 +34,7 @@ const Register = () => {
           <div className="bg-white px-6 py-8 lg:rounded-xl lg:px-12 lg:shadow-lg">
             <div className="space-y-3">
               <h1 className="text-xl font-bold tracking-tight md:text-2xl">
-                Welcome
+                Sign up
               </h1>
 
               <p className="text-sm text-gray-600">
@@ -43,7 +43,7 @@ const Register = () => {
                   className="text-primary-600 transition hover:text-primary-500 focus:underline focus:outline-none"
                   to="/"
                 >
-                  Log in →
+                  Sign in →
                 </Link>
               </p>
             </div>

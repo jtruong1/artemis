@@ -3,11 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { UserContext } from './../hooks/UserContext';
 
 const RequireAuth = ({ children }) => {
-  const { user, isLoading } = useContext(UserContext);
-
-  if (isLoading) {
-    return null;
-  }
+  const { user } = useContext(UserContext);
 
   return user ? children : <Navigate to="/" replace />;
 };

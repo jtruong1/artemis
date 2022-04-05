@@ -34,7 +34,7 @@ const Login = () => {
           <div className="bg-white px-6 py-8 lg:rounded-xl lg:px-12 lg:shadow-lg">
             <div className="space-y-3">
               <h1 className="text-xl font-bold tracking-tight md:text-2xl">
-                Welcome back
+                Sign in
               </h1>
 
               <p className="text-sm text-gray-600">

@@ -10,6 +10,10 @@ import Monitors from './pages/Monitors';
 const App = () => {
   const { user, setUser, isLoading } = useFindUser();
 
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <Router>
       <UserContext.Provider value={{ user, setUser, isLoading }}>
