@@ -22,7 +22,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="absolute inset-0 hidden -translate-y-1/2 -skew-y-12 bg-primary-100 lg:block"></div>
+      <div className="absolute inset-0 hidden -translate-y-1/2 -skew-y-12 bg-primary-200 lg:block"></div>
 
       <div className="relative flex flex-col justify-center min-h-screen">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">

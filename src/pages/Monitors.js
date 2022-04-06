@@ -1,44 +1,32 @@
+import { useState, useEffect } from 'react';
 import { PlusSmIcon } from '@heroicons/react/solid';
+import moment from 'moment';
+import { getAllMonitors } from '../api/services/Monitors';
 import Link from '../components/Link';
 import LinkButton from '../components/LinkButton';
 import Page from '../components/Page';
 import Stats from '../components/Stats';
 import Table from '../components/Table';
-
-const monitors = [
-  {
-    id: 1,
-    website: 'google.com',
-    status: 'Healthy',
-    uptime: 'Up',
-    certificate: 'Valid',
-    lastCheck: '1 minute ago',
-  },
-  {
-    id: 2,
-    website: 'youtube.com',
-    status: 'Healthy',
-    uptime: 'Up',
-    certificate: 'Valid',
-    lastCheck: '4 minutes ago',
-  },
-  {
-    id: 3,
-    website: 'facebook.com',
-    status: 'Healthy',
-    uptime: 'Up',
-    certificate: 'Valid',
-    lastCheck: '3 minutes ago',
-  },
-];
+import Badge from '../components/Badge';
 
 const stats = [
-  { name: 'Total Monitors', value: '3' },
   { name: 'Total Incidents', value: '1' },
   { name: 'Average Uptime', value: '99.83%' },
 ];
 
 const Monitors = () => {
+  const [monitors, setMonitors] = useState([]);
+
+  useEffect(() => {
+    getAllMonitors()
+      .then((res) => {
+        setMonitors(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Page
       title="Monitors"
@@ -50,6 +38,7 @@ const Monitors = () => {
       ]}
     >
       <Stats>
+        <Stats.Item name="Total Monitors" value={monitors.length} />
         {stats.map((stat) => (
           <Stats.Item key={stat.name} name={stat.name} value={stat.value} />
         ))}
@@ -100,44 +89,70 @@ const Monitors = () => {
         </thead>
 
         <tbody className="bg-white divide-y divide-gray-200">
-          {monitors.map((monitor) => (
-            <tr key={monitor.id}>
-              <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                {monitor.website}
-              </td>
+          {monitors.map((monitor) => {
+            const uptime = monitor.checks.find(
+              (check) => check.type === 'uptime'
+            );
 
-              <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                <span className="inline-flex px-2 text-xs font-semibold leading-5 rounded-full bg-success-100 text-success-800">
-                  {monitor.status}
-                </span>
-              </td>
+            const certificate = monitor.checks.find(
+              (check) => check.type === 'certificate'
+            );
 
-              <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                <span className="inline-flex px-2 text-xs font-semibold leading-5 rounded-full bg-success-100 text-success-800">
-                  {monitor.uptime}
-                </span>
-              </td>
+            monitor.status = monitor.checks.find(
+              (check) => check.status === 'down'
+            )
+              ? 'down'
+              : 'up';
 
-              <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                <span className="inline-flex px-2 text-xs font-semibold leading-5 rounded-full bg-success-100 text-success-800">
-                  {monitor.certificate}
-                </span>
-              </td>
+            monitor.checkedAt = monitor.checks
+              .map((check) => check.checkedAt)
+              .sort((a, b) => Date.parse(b) - Date.parse(a))[0];
 
-              <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                {monitor.lastCheck}
-              </td>
+            return (
+              <tr key={monitor.id}>
+                <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                  {monitor.label}
+                </td>
 
-              <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                <Link
-                  to={`/monitors/${monitor.id}`}
-                  className="text-primary-600 hover:text-primary-900"
-                >
-                  Edit
-                </Link>
-              </td>
-            </tr>
-          ))}
+                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  {monitor.status === 'up' ? (
+                    <Badge color="success">Healthy</Badge>
+                  ) : (
+                    <Badge color="danger">Unhealthy</Badge>
+                  )}
+                </td>
+
+                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  {uptime.status === 'up' ? (
+                    <Badge color="success">Up</Badge>
+                  ) : (
+                    <Badge color="danger">Down</Badge>
+                  )}
+                </td>
+
+                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  {certificate.status === 'up' ? (
+                    <Badge color="success">Valid</Badge>
+                  ) : (
+                    <Badge color="danger">Invalid</Badge>
+                  )}
+                </td>
+
+                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  {moment(monitor.checkedAt).fromNow()}
+                </td>
+
+                <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                  <Link
+                    to={`/monitors/${monitor.id}`}
+                    className="text-primary-600 hover:text-primary-900"
+                  >
+                    Edit
+                  </Link>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </Page>
