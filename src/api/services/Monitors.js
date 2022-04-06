@@ -4,8 +4,8 @@ const getAllMonitors = () => {
   return axios.get('/monitors');
 };
 
-const getMonitor = (id) => {
-  return axios.get(`/monitors/${id}`);
+const addMonitor = (data) => {
+  return axios.post('/monitors', data);
 };
 
-export { getAllMonitors, getMonitor };
+export { getAllMonitors, addMonitor };

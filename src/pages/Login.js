@@ -34,7 +34,7 @@ const Login = () => {
         </div>
 
         <div className="z-10 mt-4 sm:mx-auto sm:w-full sm:max-w-md lg:mt-10">
-          <div className="px-6 py-8 lg:rounded-xl lg:bg-white lg:px-12 lg:shadow-lg">
+          <div className="px-6 py-8 lg:rounded-lg lg:bg-white lg:px-12 lg:shadow-lg">
             <div className="space-y-3">
               <h1 className="text-xl font-bold tracking-tight lg:text-2xl">
                 Sign in

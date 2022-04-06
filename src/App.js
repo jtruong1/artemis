@@ -6,6 +6,7 @@ import RequireAuth from './components/RequireAuth';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Monitors from './pages/Monitors';
+import AddMonitor from './pages/AddMonitor';
 
 const App = () => {
   const { user, setUser, isLoading } = useFindUser();
@@ -29,6 +30,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <Monitors />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/monitors/add"
+            element={
+              <RequireAuth>
+                <AddMonitor />
               </RequireAuth>
             }
           />
