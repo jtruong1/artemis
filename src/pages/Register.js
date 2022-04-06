@@ -50,6 +50,7 @@ const Register = () => {
                 <Input
                   id="name"
                   label="Full name"
+                  name="name"
                   register={register}
                   required
                 />
@@ -57,6 +58,7 @@ const Register = () => {
                 <Input
                   id="email"
                   label="Email address"
+                  name="email"
                   type="email"
                   register={register}
                   required
@@ -65,6 +67,7 @@ const Register = () => {
                 <Input
                   id="password"
                   label="Password"
+                  name="password"
                   type="password"
                   register={register}
                   required
@@ -73,6 +76,7 @@ const Register = () => {
                 <Input
                   id="passwordConfirmation"
                   label="Confirm password"
+                  name="passwordConfirmation"
                   type="password"
                   register={register}
                   required

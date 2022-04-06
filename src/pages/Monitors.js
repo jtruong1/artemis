@@ -1,5 +1,7 @@
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
+import { PlusSmIcon } from '@heroicons/react/solid';
+import Link from '../components/Link';
+import LinkButton from '../components/LinkButton';
+import Page from '../components/Page';
 
 const monitors = [
   {
@@ -30,7 +32,15 @@ const monitors = [
 
 const Monitors = () => {
   return (
-    <Layout title="Monitors">
+    <Page
+      title="Monitors"
+      actions={[
+        <LinkButton to="/monitors/add">
+          <PlusSmIcon className="w-5 h-5 mr-2 -ml-1" aria-hidden="true" />
+          Add Monitor
+        </LinkButton>,
+      ]}
+    >
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -113,7 +123,7 @@ const Monitors = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </Page>
   );
 };
 
