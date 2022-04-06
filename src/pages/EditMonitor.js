@@ -3,7 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { getMonitor, updateMonitor } from '../api/services/Monitors';
+import {
+  getMonitor,
+  updateMonitor,
+  deleteMonitor,
+} from '../api/services/Monitors';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import Input from '../components/Input';
@@ -42,6 +46,16 @@ const EditMonitor = () => {
 
   const onSubmit = (data) => {
     updateMonitor(id, data)
+      .then(() => {
+        navigate('/monitors');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const removeMonitor = () => {
+    deleteMonitor(id)
       .then(() => {
         navigate('/monitors');
       })
@@ -151,8 +165,11 @@ const EditMonitor = () => {
           </div>
         </div>
 
-        <div className="flex justify-end mt-4 sm:mt-6">
+        <div className="flex justify-end mt-4 space-x-2 sm:mt-6">
           <Button type="submit">Edit monitor</Button>
+          <Button color="danger" onClick={removeMonitor}>
+            Remove monitor
+          </Button>
         </div>
       </form>
     </Page>

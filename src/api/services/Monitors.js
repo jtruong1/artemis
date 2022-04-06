@@ -16,4 +16,8 @@ const updateMonitor = (id, data) => {
   return axios.put(`/monitors/${id}`, data);
 };
 
-export { getMonitors, getMonitor, addMonitor, updateMonitor };
+const deleteMonitor = (id) => {
+  return axios.delete(`/monitors/${id}`);
+};
+
+export { getMonitors, getMonitor, addMonitor, updateMonitor, deleteMonitor };
