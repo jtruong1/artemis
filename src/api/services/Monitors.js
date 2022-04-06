@@ -1,14 +1,14 @@
 import axios from '../axios';
 
-const getMonitors = () => {
+const getAllMonitors = () => {
   return axios.get('/monitors');
 };
 
-const getMonitor = (id) => {
+const getSingleMonitor = (id) => {
   return axios.get(`/monitors/${id}`);
 };
 
-const addMonitor = (data) => {
+const createMonitor = (data) => {
   return axios.post('/monitors', data);
 };
 
@@ -20,4 +20,10 @@ const deleteMonitor = (id) => {
   return axios.delete(`/monitors/${id}`);
 };
 
-export { getMonitors, getMonitor, addMonitor, updateMonitor, deleteMonitor };
+export {
+  getAllMonitors,
+  getSingleMonitor,
+  createMonitor,
+  updateMonitor,
+  deleteMonitor,
+};

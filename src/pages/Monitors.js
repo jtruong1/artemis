@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PlusSmIcon } from '@heroicons/react/solid';
 import moment from 'moment';
-import { getMonitors } from '../api/services/Monitors';
+import { getAllMonitors } from '../api/services/Monitors';
 import Link from '../components/Link';
 import LinkButton from '../components/LinkButton';
 import Page from '../components/Page';
@@ -10,15 +10,15 @@ import Table from '../components/Table';
 import Badge from '../components/Badge';
 
 const stats = [
-  { name: 'Total Incidents', value: '1' },
-  { name: 'Average Uptime', value: '99.83%' },
+  { name: 'Total Incidents', value: '0' },
+  { name: 'Average Uptime', value: '100%' },
 ];
 
 const Monitors = () => {
   const [monitors, setMonitors] = useState([]);
 
   useEffect(() => {
-    getMonitors()
+    getAllMonitors()
       .then((res) => {
         setMonitors(res.data);
       })
@@ -43,7 +43,6 @@ const Monitors = () => {
           <Stats.Item key={stat.name} name={stat.name} value={stat.value} />
         ))}
       </Stats>
-
       <Table className="mt-4">
         <thead className="bg-white">
           <tr>
@@ -53,42 +52,36 @@ const Monitors = () => {
             >
               Website
             </th>
-
             <th
               scope="col"
               className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
             >
               Status
             </th>
-
             <th
               scope="col"
               className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
             >
               Uptime
             </th>
-
             <th
               scope="col"
               className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
             >
               Certificate
             </th>
-
             <th
               scope="col"
               className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
             >
               Response Time
             </th>
-
             <th
               scope="col"
               className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
             >
               Last Checked
             </th>
-
             <th scope="col" className="relative px-6 py-3">
               <span className="sr-only">Edit</span>
             </th>
@@ -124,7 +117,6 @@ const Monitors = () => {
                 <td className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
                   {monitor.label}
                 </td>
-
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {monitor.status === 'up' ? (
                     <Badge color="success">Healthy</Badge>
@@ -134,7 +126,6 @@ const Monitors = () => {
                     <Badge color="warning">Pending</Badge>
                   )}
                 </td>
-
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {uptime.status === 'up' ? (
                     <Badge color="success">Up</Badge>
@@ -144,7 +135,6 @@ const Monitors = () => {
                     <Badge color="warning">Pending</Badge>
                   )}
                 </td>
-
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {certificate.status === 'up' ? (
                     <Badge color="success">Valid</Badge>
@@ -154,18 +144,15 @@ const Monitors = () => {
                     <Badge color="warning">Pending</Badge>
                   )}
                 </td>
-
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {uptime.status === 'up' ? uptime.metadata.response_time : 0}{' '}
                   ms
                 </td>
-
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {monitor.status !== 'pending'
                     ? moment(monitor.checkedAt).fromNow()
                     : 'N/A'}
                 </td>
-
                 <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                   <Link
                     to={`/monitors/${monitor.id}/edit`}

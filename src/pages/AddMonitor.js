@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { addMonitor } from '../api/services/Monitors';
+import { createMonitor } from '../api/services/Monitors';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import Input from '../components/Input';
@@ -36,7 +36,7 @@ const AddMonitor = () => {
   });
 
   const onSubmit = (data) => {
-    addMonitor(data)
+    createMonitor(data)
       .then(() => {
         navigate('/monitors');
       })

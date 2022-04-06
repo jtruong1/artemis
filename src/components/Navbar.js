@@ -1,15 +1,15 @@
 import { Fragment, useContext } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { UserContext } from '../hooks/UserContext';
 
 const navigation = [
-  { name: 'Monitors', path: '/', current: true },
-  { name: 'Incidents', path: '/', current: false },
-  { name: 'Status Pages', path: '/', current: false },
-  { name: 'Settings', path: '/', current: false },
+  { name: 'Monitors', path: '/monitors' },
+  { name: 'Incidents', path: '/incidents' },
+  { name: 'Status Pages', path: '/status-pages' },
+  { name: 'Settings', path: '/settings' },
 ];
 
 const userNavigation = [
@@ -34,35 +34,33 @@ const Navbar = () => {
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                     alt="Artemis"
                   />
-
                   <img
                     className="hidden w-auto h-8 lg:block"
                     src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
                     alt="Artemis"
                   />
                 </div>
-
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <Link
+                      <NavLink
                         key={item.name}
                         to={item.path}
-                        className={classNames(
-                          item.current
-                            ? 'bg-primary-700 text-white'
-                            : 'text-white hover:bg-primary-500 hover:bg-opacity-75',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
+                        className={({ isActive }) =>
+                          classNames(
+                            isActive
+                              ? 'bg-primary-700 text-white'
+                              : 'text-white hover:bg-primary-500 hover:bg-opacity-75',
+                            'rounded-md px-3 py-2 text-sm font-medium'
+                          )
+                        }
                       >
                         {item.name}
-                      </Link>
+                      </NavLink>
                     ))}
                   </div>
                 </div>
               </div>
-
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex items-center">
                   <button
@@ -72,7 +70,6 @@ const Navbar = () => {
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="w-6 h-6" aria-hidden="true" />
                   </button>
-
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="flex text-sm rounded-full bg-primary-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600">
@@ -84,7 +81,6 @@ const Navbar = () => {
                         />
                       </Menu.Button>
                     </div>
-
                     <Transition
                       as={Fragment}
                       enter="transition ease-out duration-200"
@@ -98,7 +94,7 @@ const Navbar = () => {
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
-                              <Link
+                              <NavLink
                                 to={item.path}
                                 className={classNames(
                                   'block px-4 py-2 text-sm text-gray-700',
@@ -106,7 +102,7 @@ const Navbar = () => {
                                 )}
                               >
                                 {item.name}
-                              </Link>
+                              </NavLink>
                             )}
                           </Menu.Item>
                         ))}
@@ -115,7 +111,6 @@ const Navbar = () => {
                   </Menu>
                 </div>
               </div>
-
               <div className="flex -mr-2 sm:hidden">
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md bg-primary-600 text-primary-200 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
@@ -128,27 +123,26 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as={Link}
+                  as={NavLink}
                   to={item.path}
-                  className={classNames(
-                    item.current
-                      ? 'bg-primary-700 text-white'
-                      : 'text-white hover:bg-primary-500 hover:bg-opacity-75',
-                    'block rounded-md px-3 py-2 text-base font-medium'
-                  )}
-                  aria-current={item.current ? 'page' : undefined}
+                  className={({ isActive }) =>
+                    classNames(
+                      isActive
+                        ? 'bg-primary-700 text-white'
+                        : 'text-white hover:bg-primary-500 hover:bg-opacity-75',
+                      'block rounded-md px-3 py-2 text-base font-medium'
+                    )
+                  }
                 >
                   {item.name}
                 </Disclosure.Button>
               ))}
             </div>
-
             <div className="pt-4 pb-3 border-t border-primary-700">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
@@ -158,17 +152,14 @@ const Navbar = () => {
                     alt={user.name}
                   />
                 </div>
-
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">
                     {user.name}
                   </div>
-
                   <div className="text-sm font-medium text-primary-300">
                     {user.email}
                   </div>
                 </div>
-
                 <button
                   type="button"
                   className="flex-shrink-0 p-1 ml-auto rounded-full bg-primary-600 text-primary-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600"
@@ -177,12 +168,11 @@ const Navbar = () => {
                   <BellIcon className="w-6 h-6" aria-hidden="true" />
                 </button>
               </div>
-
               <div className="px-2 mt-3 space-y-1">
                 {userNavigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
-                    as={Link}
+                    as={NavLink}
                     to={item.path}
                     className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-primary-500 hover:bg-opacity-75"
                   >
