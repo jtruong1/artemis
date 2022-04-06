@@ -79,7 +79,14 @@ const Monitors = () => {
               scope="col"
               className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
             >
-              Last Check
+              Response Time
+            </th>
+
+            <th
+              scope="col"
+              className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+            >
+              Last Checked
             </th>
 
             <th scope="col" className="relative px-6 py-3">
@@ -90,6 +97,20 @@ const Monitors = () => {
 
         <tbody className="bg-white divide-y divide-gray-200">
           {monitors.map((monitor) => {
+            const isPending = !!monitor.checks.find(
+              (check) => check.status === 'pending'
+            );
+
+            const isDown = !!monitor.checks.find(
+              (check) => check.status === 'down'
+            );
+
+            monitor.status = isPending ? 'pending' : isDown ? 'down' : 'up';
+
+            monitor.checkedAt = monitor.checks
+              .map((check) => check.checkedAt || new Date())
+              .sort((a, b) => Date.parse(b) - Date.parse(a))[0];
+
             const uptime = monitor.checks.find(
               (check) => check.type === 'uptime'
             );
@@ -97,16 +118,6 @@ const Monitors = () => {
             const certificate = monitor.checks.find(
               (check) => check.type === 'certificate'
             );
-
-            monitor.status = monitor.checks.find(
-              (check) => check.status === 'down'
-            )
-              ? 'down'
-              : 'up';
-
-            monitor.checkedAt = monitor.checks
-              .map((check) => check.checkedAt)
-              .sort((a, b) => Date.parse(b) - Date.parse(a))[0];
 
             return (
               <tr key={monitor.id}>
@@ -117,29 +128,42 @@ const Monitors = () => {
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {monitor.status === 'up' ? (
                     <Badge color="success">Healthy</Badge>
-                  ) : (
+                  ) : monitor.status === 'down' ? (
                     <Badge color="danger">Unhealthy</Badge>
+                  ) : (
+                    <Badge color="warning">Pending</Badge>
                   )}
                 </td>
 
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {uptime.status === 'up' ? (
                     <Badge color="success">Up</Badge>
-                  ) : (
+                  ) : uptime.status === 'down' ? (
                     <Badge color="danger">Down</Badge>
+                  ) : (
+                    <Badge color="warning">Pending</Badge>
                   )}
                 </td>
 
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                   {certificate.status === 'up' ? (
                     <Badge color="success">Valid</Badge>
-                  ) : (
+                  ) : certificate.status === 'down' ? (
                     <Badge color="danger">Invalid</Badge>
+                  ) : (
+                    <Badge color="warning">Pending</Badge>
                   )}
                 </td>
 
                 <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                  {moment(monitor.checkedAt).fromNow()}
+                  {uptime.status === 'up' ? uptime.metadata.response_time : 0}{' '}
+                  ms
+                </td>
+
+                <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  {monitor.status !== 'pending'
+                    ? moment(monitor.checkedAt).fromNow()
+                    : 'N/A'}
                 </td>
 
                 <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
