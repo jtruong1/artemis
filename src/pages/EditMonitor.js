@@ -1,8 +1,9 @@
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { addMonitor } from '../api/services/Monitors';
+import { getMonitor, updateMonitor } from '../api/services/Monitors';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import Input from '../components/Input';
@@ -23,20 +24,24 @@ const monitorSchema = yup
   })
   .required();
 
-const AddMonitor = () => {
+const EditMonitor = () => {
+  const [monitor, setMonitor] = useState({ url: '', label: '' });
+
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
-    reValidateMode: 'onBlur',
+    defaultValues: monitor,
     resolver: yupResolver(monitorSchema),
   });
 
   const onSubmit = (data) => {
-    addMonitor(data)
+    updateMonitor(id, data)
       .then(() => {
         navigate('/monitors');
       })
@@ -45,8 +50,19 @@ const AddMonitor = () => {
       });
   };
 
+  useEffect(() => {
+    getMonitor(id)
+      .then((res) => {
+        setMonitor(res.data);
+        reset(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id, reset]);
+
   return (
-    <Page title="Add Monitor">
+    <Page title={`Edit Monitor (${monitor.label})`}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-4 lg:mt-6">
           <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -69,7 +85,6 @@ const AddMonitor = () => {
                       id="url"
                       label="URL"
                       name="url"
-                      value="https://"
                       placeholder="www.example.com"
                       register={register}
                       errors={errors}
@@ -137,11 +152,11 @@ const AddMonitor = () => {
         </div>
 
         <div className="flex justify-end mt-4 sm:mt-6">
-          <Button type="submit">Add monitor</Button>
+          <Button type="submit">Edit monitor</Button>
         </div>
       </form>
     </Page>
   );
 };
 
-export default AddMonitor;
+export default EditMonitor;

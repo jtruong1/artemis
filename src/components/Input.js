@@ -60,6 +60,7 @@ const Input = ({
             'rounded-lg shadow-sm': !prefix,
           }
         )}
+        aria-invalid={errors && errors[name]}
         aria-describedby={hint ? `${id}-hint` : null}
         {...(register ? register(name) : [])}
       />

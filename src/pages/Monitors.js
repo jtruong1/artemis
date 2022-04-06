@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PlusSmIcon } from '@heroicons/react/solid';
 import moment from 'moment';
-import { getAllMonitors } from '../api/services/Monitors';
+import { getMonitors } from '../api/services/Monitors';
 import Link from '../components/Link';
 import LinkButton from '../components/LinkButton';
 import Page from '../components/Page';
@@ -18,7 +18,7 @@ const Monitors = () => {
   const [monitors, setMonitors] = useState([]);
 
   useEffect(() => {
-    getAllMonitors()
+    getMonitors()
       .then((res) => {
         setMonitors(res.data);
       })
@@ -168,7 +168,7 @@ const Monitors = () => {
 
                 <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                   <Link
-                    to={`/monitors/${monitor.id}`}
+                    to={`/monitors/${monitor.id}/edit`}
                     className="text-primary-600 hover:text-primary-900"
                   >
                     Edit

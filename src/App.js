@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Monitors from './pages/Monitors';
 import AddMonitor from './pages/AddMonitor';
+import EditMonitor from './pages/EditMonitor';
 
 const App = () => {
   const { user, setUser, isLoading } = useFindUser();
@@ -38,6 +39,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <AddMonitor />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/monitors/:id/edit"
+            element={
+              <RequireAuth>
+                <EditMonitor />
               </RequireAuth>
             }
           />
