@@ -13,7 +13,7 @@ Artemis is an open-source monitoring tool that establishes a single source of tr
 2. Install NPM packages
 
    ```sh
-   cd artemis
+   npm install
    ```
 
 2. Start the application
@@ -22,4 +22,4 @@ Artemis is an open-source monitoring tool that establishes a single source of tr
    npm start
    ```
 
-You will need to also follow the instructions for [artemis-api](https://github.com/jtruong1/artemis-api) to proceed.
+You will need to also follow the instructions for [artemis-api](https://github.com/jtruong1/artemis-api) if you haven't already.
