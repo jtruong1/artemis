@@ -9,11 +9,6 @@ import Stats from '../components/Stats';
 import Table from '../components/Table';
 import Badge from '../components/Badge';
 
-const stats = [
-  { name: 'Total Incidents', value: '0' },
-  { name: 'Average Uptime', value: '100%' },
-];
-
 const Monitors = () => {
   const [monitors, setMonitors] = useState([]);
 
@@ -39,11 +34,10 @@ const Monitors = () => {
     >
       <Stats>
         <Stats.Item name="Total Monitors" value={monitors.length} />
-        {stats.map((stat) => (
-          <Stats.Item key={stat.name} name={stat.name} value={stat.value} />
-        ))}
+        <Stats.Item name="Total Incidents" value="0" />
+        <Stats.Item name="Average Uptime" value="100%" />
       </Stats>
-      <Table className="mt-4">
+      <Table className="mt-6">
         <thead className="bg-white">
           <tr>
             <th
@@ -87,7 +81,6 @@ const Monitors = () => {
             </th>
           </tr>
         </thead>
-
         <tbody className="bg-white divide-y divide-gray-200">
           {monitors.map((monitor) => {
             const isPending = !!monitor.checks.find(
@@ -164,6 +157,16 @@ const Monitors = () => {
               </tr>
             );
           })}
+          {monitors.length === 0 && (
+            <tr>
+              <td
+                colSpan="7"
+                className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"
+              >
+                No monitors found. Create one by clicking the button above.
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
     </Page>
