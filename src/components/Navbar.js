@@ -4,6 +4,7 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { UserContext } from '../hooks/UserContext';
+import artemisLogo from '../assets/images/logos/artemis-full-white.png';
 
 const navigation = [
   { name: 'Monitors', path: '/monitors' },
@@ -36,7 +37,7 @@ const Navbar = () => {
                   />
                   <img
                     className="hidden w-auto h-8 lg:block"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                    src={artemisLogo}
                     alt="Artemis"
                   />
                 </div>

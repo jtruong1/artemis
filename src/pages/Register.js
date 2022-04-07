@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 import { UserContext } from '../hooks/UserContext';
 import useAuth from '../hooks/useAuth';
+import artemisLogo from '../assets/images/logos/artemis-full.png';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import Link from '../components/Link';
@@ -27,8 +28,8 @@ const Register = () => {
       <div className="relative flex flex-col justify-center min-h-screen">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
-            className="w-auto h-12 mx-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-blue-600.svg"
+            className="w-auto h-16 mx-auto sm:h-20"
+            src={artemisLogo}
             alt="Artemis"
           />
         </div>
